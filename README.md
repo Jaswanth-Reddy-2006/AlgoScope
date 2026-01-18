@@ -2,6 +2,8 @@
 
 AlgoScope is an interactive algorithm visualization and coding practice platform that combines visual learning with hands-on problem solving. Master data structures and algorithms through beautiful visualizations and comprehensive coding challenges.
 
+Demo Link :- https://algoscope.vercel.app/dashboard
+
 ## How It Works
 
 ### 🎯 Core Functionality
