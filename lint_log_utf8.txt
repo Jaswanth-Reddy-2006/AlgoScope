@@ -1,0 +1,92 @@
+﻿
+> algoscope@0.0.0 lint
+> eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0
+
+
+C:\DSA\src\components\EnhancedVisualizer.tsx
+   56:6   warning  React Hook useEffect has missing dependencies: 'generateSteps', 'problem', and 'setActiveProblem'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+   58:39  warning  Unexpected any. Specify a different type                                                                                                               @typescript-eslint/no-explicit-any
+   93:6   warning  React Hook useEffect has missing dependencies: 'setCurrentStepIndex' and 'setIsPlaying'. Either include them or remove the dependency array            react-hooks/exhaustive-deps
+   95:54  warning  Unexpected any. Specify a different type                                                                                                               @typescript-eslint/no-explicit-any
+  109:22  warning  Unexpected any. Specify a different type                                                                                                               @typescript-eslint/no-explicit-any
+  162:6   warning  React Hook useEffect has missing dependencies: 'setCurrentStepIndex' and 'setIsPlaying'. Either include them or remove the dependency array            react-hooks/exhaustive-deps
+  175:34  warning  Unexpected any. Specify a different type                                                                                                               @typescript-eslint/no-explicit-any
+  187:28  warning  Unexpected any. Specify a different type                                                                                                               @typescript-eslint/no-explicit-any
+  187:66  warning  Unexpected any. Specify a different type                                                                                                               @typescript-eslint/no-explicit-any
+  545:56  warning  Unexpected any. Specify a different type                                                                                                               @typescript-eslint/no-explicit-any
+  569:87  warning  Unexpected any. Specify a different type                                                                                                               @typescript-eslint/no-explicit-any
+  607:61  warning  Unexpected any. Specify a different type                                                                                                               @typescript-eslint/no-explicit-any
+  609:47  warning  Unexpected any. Specify a different type                                                                                                               @typescript-eslint/no-explicit-any
+  611:92  warning  Unexpected any. Specify a different type                                                                                                               @typescript-eslint/no-explicit-any
+  633:69  warning  Unexpected any. Specify a different type                                                                                                               @typescript-eslint/no-explicit-any
+  635:49  warning  Unexpected any. Specify a different type                                                                                                               @typescript-eslint/no-explicit-any
+  674:75  warning  Unexpected any. Specify a different type                                                                                                               @typescript-eslint/no-explicit-any
+  701:88  warning  Unexpected any. Specify a different type                                                                                                               @typescript-eslint/no-explicit-any
+  797:60  warning  Unexpected any. Specify a different type                                                                                                               @typescript-eslint/no-explicit-any
+
+C:\DSA\src\components\ProblemSolver.tsx
+  44:8  warning  React Hook useEffect has a missing dependency: 'language'. Either include it or remove the dependency array                   react-hooks/exhaustive-deps
+  51:8  warning  React Hook useEffect has a missing dependency: 'getStarterCodeForLanguage'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\DSA\src\components\VisualizerPanel.tsx
+   18:44  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  207:39  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  248:71  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  266:41  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\DSA\src\lib\algorithms\index.ts
+  11:46  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  11:68  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  12:24  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  13:42  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  14:36  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  15:33  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  16:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  17:27  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  21:46  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  21:68  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  25:42  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  29:58  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  29:80  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\DSA\src\lib\algorithms\quickSort.ts
+  12:20  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  13:22  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  14:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\DSA\src\lib\algorithms\reverseLinkedList.ts
+  3:50  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\DSA\src\lib\algorithms\universalEngine.ts
+    3:65  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   60:51  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  153:64  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  167:72  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  298:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\DSA\src\lib\codeExecutor.ts
+    5:14  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   13:12  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   14:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   15:20  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   22:22  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  107:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  175:36  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  175:51  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\DSA\src\lib\sound.ts
+  4:64  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\DSA\src\types\index.ts
+  16:10  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  17:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  23:11  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  31:10  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  51:12  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  90:18  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\DSA\vite.config.ts
+  7:9  error  'process' is not defined  no-undef
+
+Γ£û 63 problems (1 error, 62 warnings)
+

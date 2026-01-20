@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom"
 import { useEditorStore } from "../store/useEditorStore"
 import { problems } from "../data/problems"
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState, useRef, useCallback } from "react"
 import { algorithmGenerators } from "../lib/algorithms"
 import { Sidebar } from "./Sidebar"
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels"
@@ -43,6 +43,19 @@ export function EnhancedVisualizer() {
   const problem = problems.find(p => p.slug === slug)
   const activeProblem = problem || storeActiveProblem;
 
+  const generateSteps = useCallback((problemSlug: string, input: any, currentMode: string) => {
+    if (algorithmGenerators[problemSlug]) {
+      try {
+        const steps = algorithmGenerators[problemSlug](input, currentMode)
+        setVisualizationSteps(steps)
+        setCurrentStepIndex(0)
+        setIsPlaying(false)
+      } catch (err) {
+        console.error("Simulation failed:", err)
+      }
+    }
+  }, [setVisualizationSteps, setCurrentStepIndex, setIsPlaying])
+
   useEffect(() => {
     if (problem) {
       setActiveProblem(problem.id)
@@ -53,20 +66,7 @@ export function EnhancedVisualizer() {
       setInputData(sessionInput)
       generateSteps(problem.slug, initialInput, mode)
     }
-  }, [slug, mode])
-
-  const getDefaultFallbackInput = (p: any) => {
-    const category = p.category;
-    if (category === 'Graphs') return { grid: [["1", "1", "0"], ["1", "1", "0"], ["0", "0", "1"]] };
-    if (category === 'Trees') return { treeLevels: [[{ val: '6', isActive: true }], [{ val: '2' }, { val: '8' }]] };
-    if (category === 'Linked List') return { nodes: [1, 2, 3, 4, 5] };
-    if (category === 'Bit Manipulation') return { n: 11 };
-    if (category === 'Tries') return { words: ["apple", "app", "apricot"] };
-    if (category === 'Two Pointers' && p.slug.includes('palindrome')) return { s: "racecar" };
-    if (p.slug.includes('matrix') || p.slug.includes('image')) return { matrix: [[1, 2], [3, 4]] };
-
-    return { nums: [1, 2, 3, 4, 5] };
-  }
+  }, [slug, mode, problem, setActiveProblem, generateSteps])
 
   // Keyboard shortcuts
   useEffect(() => {
@@ -90,20 +90,9 @@ export function EnhancedVisualizer() {
 
     window.addEventListener('keydown', handleKeyPress)
     return () => window.removeEventListener('keydown', handleKeyPress)
-  }, [isPlaying, currentStepIndex, visualizationSteps.length])
+  }, [isPlaying, currentStepIndex, visualizationSteps.length, setCurrentStepIndex, setIsPlaying])
 
-  const generateSteps = (problemSlug: string, input: any, currentMode: string) => {
-    if (algorithmGenerators[problemSlug]) {
-      try {
-        const steps = algorithmGenerators[problemSlug](input, currentMode)
-        setVisualizationSteps(steps)
-        setCurrentStepIndex(0)
-        setIsPlaying(false)
-      } catch (err) {
-        console.error("Simulation failed:", err)
-      }
-    }
-  }
+
 
   const handleRandomizeInput = () => {
     let randomInput: any = {}
@@ -159,7 +148,7 @@ export function EnhancedVisualizer() {
     return () => {
       if (timerRef.current) clearInterval(timerRef.current)
     }
-  }, [isPlaying, currentStepIndex, visualizationSteps.length, speed])
+  }, [isPlaying, currentStepIndex, visualizationSteps.length, speed, setCurrentStepIndex, setIsPlaying])
 
   if (!activeProblem) return null;
   const currentStep = visualizationSteps[currentStepIndex];
@@ -543,26 +532,26 @@ export function EnhancedVisualizer() {
                       {(() => {
                         const array = currentStep?.state?.nums || currentStep?.state?.chars;
                         return array ? array.map((val: any, idx: number) => {
-                        const isActive = currentStep.state.activeIndices?.includes(idx) || currentStep.state.l === idx || currentStep.state.r === idx;
-                        const isFound = currentStep.state.foundIndices?.includes(idx);
-                        return (
-                          <div key={idx} className="flex flex-col items-center gap-1.5 transition-all">
-                            <div className={`w-12 h-12 rounded-lg border-[3px] flex items-center justify-center font-bold text-base shadow-md transition-transform hover:scale-105 ${isActive ? 'border-accent-neon bg-accent-neon/10 text-accent-neon shadow-accent-neon/20' :
-                              isFound ? 'border-yellow-400 bg-yellow-400/10 text-yellow-400 shadow-yellow-400/20' :
-                                'border-slate-200 dark:border-slate-700 text-slate-400'
-                              }`}>
-                              {val}
+                          const isActive = currentStep.state.activeIndices?.includes(idx) || currentStep.state.l === idx || currentStep.state.r === idx;
+                          const isFound = currentStep.state.foundIndices?.includes(idx);
+                          return (
+                            <div key={idx} className="flex flex-col items-center gap-1.5 transition-all">
+                              <div className={`w-12 h-12 rounded-lg border-[3px] flex items-center justify-center font-bold text-base shadow-md transition-transform hover:scale-105 ${isActive ? 'border-accent-neon bg-accent-neon/10 text-accent-neon shadow-accent-neon/20' :
+                                isFound ? 'border-yellow-400 bg-yellow-400/10 text-yellow-400 shadow-yellow-400/20' :
+                                  'border-slate-200 dark:border-slate-700 text-slate-400'
+                                }`}>
+                                {val}
+                              </div>
+                              <div className="flex flex-col items-center">
+                                <span className={`text-[9px] font-mono font-bold ${isActive ? 'text-accent-neon' : isFound ? 'text-yellow-400' : 'text-slate-500'}`}>
+                                  i:{idx}
+                                </span>
+                                {currentStep.state.l === idx && <span className="text-[10px] text-accent-neon font-black">L</span>}
+                                {currentStep.state.r === idx && <span className="text-[10px] text-accent-neon font-black">R</span>}
+                              </div>
                             </div>
-                            <div className="flex flex-col items-center">
-                              <span className={`text-[9px] font-mono font-bold ${isActive ? 'text-accent-neon' : isFound ? 'text-yellow-400' : 'text-slate-500'}`}>
-                                i:{idx}
-                              </span>
-                              {currentStep.state.l === idx && <span className="text-[10px] text-accent-neon font-black">L</span>}
-                              {currentStep.state.r === idx && <span className="text-[10px] text-accent-neon font-black">R</span>}
-                            </div>
-                          </div>
-                        );
-                      }) : null;
+                          );
+                        }) : null;
                       })()}
 
                       {/* Linked List Visualization (nodes) */}
@@ -858,4 +847,17 @@ export function EnhancedVisualizer() {
       )}
     </div>
   )
+}
+
+const getDefaultFallbackInput = (p: any) => {
+  const category = p.category;
+  if (category === 'Graphs') return { grid: [["1", "1", "0"], ["1", "1", "0"], ["0", "0", "1"]] };
+  if (category === 'Trees') return { treeLevels: [[{ val: '6', isActive: true }], [{ val: '2' }, { val: '8' }]] };
+  if (category === 'Linked List') return { nodes: [1, 2, 3, 4, 5] };
+  if (category === 'Bit Manipulation') return { n: 11 };
+  if (category === 'Tries') return { words: ["apple", "app", "apricot"] };
+  if (category === 'Two Pointers' && p.slug.includes('palindrome')) return { s: "racecar" };
+  if (p.slug.includes('matrix') || p.slug.includes('image')) return { matrix: [[1, 2], [3, 4]] };
+
+  return { nums: [1, 2, 3, 4, 5] };
 }

@@ -87,6 +87,11 @@ export interface Problem {
   tags?: string;
   detailedExplanation?: string;
   edgeCases?: string[];
+  algorithmSteps?: string[]; // New: Step-by-step logic
   defaultInput?: any;
   testCases?: TestCase[];
+
+  // Complexity & Code toggles
+  beginnerComplexity?: Complexity;
+  optimalComplexity?: Complexity;
 }

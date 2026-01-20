@@ -31,41 +31,29 @@ export function ProblemSolver() {
     const [isRunning, setIsRunning] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
+    // New: Mode state
+    const [mode, setMode] = useState<'beginner' | 'optimal'>('optimal');
+
     useEffect(() => {
         const foundProblem = problems.find(p => p.slug === slug);
         if (foundProblem) {
             setProblem(foundProblem);
             setActiveProblem(foundProblem.id);
-            const starterCode = foundProblem.starterCode || getDefaultStarterCode(language);
+            // Default to optimal code on load
+            const starterCode = getStarterCodeForLanguage(foundProblem, language, 'optimal');
             setCode(starterCode);
         } else {
             navigate('/practice');
         }
-    }, [slug, navigate, setActiveProblem]);
+    }, [slug, navigate, setActiveProblem, language]); // Added language to dep, but logic below handles language change better
 
+    // Handle Language or Mode change
     useEffect(() => {
         if (problem) {
-            const starterCode = getStarterCodeForLanguage(problem, language);
+            const starterCode = getStarterCodeForLanguage(problem, language, mode);
             setCode(starterCode);
         }
-    }, [language, problem]);
-
-    const getStarterCodeForLanguage = (prob: Problem, lang: Language): string => {
-        if (lang === 'python' && prob.starterCode) return prob.starterCode;
-        if (lang === 'javascript' && prob.codes?.javascript) {
-            return `// Starter code\n${prob.codes.javascript.split('\\n').slice(0, 3).join('\\n')}\n    // Your code here\n};`;
-        }
-        if (lang === 'cpp' && prob.codes?.cpp) {
-            return `// Starter code\n${prob.codes.cpp.split('\\n').slice(0, 5).join('\\n')}\n        // Your code here\n    }\n};`;
-        }
-        return getDefaultStarterCode(lang);
-    };
-
-    const getDefaultStarterCode = (lang: Language): string => {
-        if (lang === 'python') return `class Solution:\n    def solve(self):\n        pass`;
-        if (lang === 'javascript') return `var solve = function() {\n    // Your code here\n};`;
-        return `class Solution {\npublic:\n    void solve() {\n        // Your code here\n    }\n};`;
-    };
+    }, [language, problem, mode]);
 
     const handleRun = async () => {
         if (!problem || !problem.testCases || problem.testCases.length === 0) {
@@ -128,6 +116,11 @@ export function ProblemSolver() {
         );
     }
 
+    // Determine current complexity to display
+    const currentComplexity = mode === 'beginner'
+        ? (problem.beginnerComplexity || { time: '?', space: '?' })
+        : (problem.optimalComplexity || problem.complexity || { time: '?', space: '?' });
+
     return (
         <div className="h-screen flex flex-col bg-background-dark text-slate-300">
             {/* Header */}
@@ -145,8 +138,44 @@ export function ProblemSolver() {
                     <span className={`text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider ${problem.diffClass}`}>
                         {problem.difficulty}
                     </span>
+
+                    {/* Complexity Display */}
+                    <div className="flex items-center gap-3 ml-4 text-xs font-mono bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-800">
+                        <div className="flex items-center gap-1.5">
+                            <span className="text-slate-500">Time:</span>
+                            <span className={mode === 'optimal' ? 'text-emerald-400' : 'text-amber-400'}>{currentComplexity.time}</span>
+                        </div>
+                        <div className="w-px h-3 bg-slate-800" />
+                        <div className="flex items-center gap-1.5">
+                            <span className="text-slate-500">Space:</span>
+                            <span className={mode === 'optimal' ? 'text-emerald-400' : 'text-amber-400'}>{currentComplexity.space}</span>
+                        </div>
+                    </div>
                 </div>
-                <div className="flex items-center gap-3">
+
+                <div className="flex items-center gap-4">
+                    {/* Mode Toggle */}
+                    <div className="flex items-center gap-1 bg-slate-950 rounded-lg p-1 border border-white/10">
+                        <button
+                            onClick={() => setMode('beginner')}
+                            className={`px-3 py-1.5 text-xs font-bold rounded transition-all ${mode === 'beginner'
+                                ? 'bg-amber-500/20 text-amber-500'
+                                : 'text-slate-400 hover:text-white'
+                                }`}
+                        >
+                            Brute Force
+                        </button>
+                        <button
+                            onClick={() => setMode('optimal')}
+                            className={`px-3 py-1.5 text-xs font-bold rounded transition-all ${mode === 'optimal'
+                                ? 'bg-emerald-500/20 text-emerald-500'
+                                : 'text-slate-400 hover:text-white'
+                                }`}
+                        >
+                            Optimal
+                        </button>
+                    </div>
+
                     {/* Language Selector */}
                     <div className="flex items-center gap-1 bg-slate-950 rounded-lg p-1 border border-white/10">
                         {Object.entries(languageMap).map(([key, { label }]) => (
@@ -185,7 +214,14 @@ export function ProblemSolver() {
                     {/* Right: Code Editor + Test Cases */}
                     <div className="flex flex-col">
                         {/* Code Editor */}
-                        <div className="flex-1 border-b border-white/5">
+                        <div className="flex-1 border-b border-white/5 relative">
+                            {/* Mode Badge in Editor */}
+                            <div className="absolute bottom-4 right-4 z-10 pointer-events-none">
+                                <span className={`text-[10px] uppercase font-bold tracking-widest px-2 py-1 rounded bg-slate-900 border ${mode === 'beginner' ? 'text-amber-500 border-amber-500/20' : 'text-emerald-500 border-emerald-500/20'}`}>
+                                    {mode === 'beginner' ? 'Brute Force Approach' : 'Optimal Solution'}
+                                </span>
+                            </div>
+
                             <CodeEditor
                                 language={languageMap[language].monacoLang}
                                 value={code}
@@ -260,3 +296,34 @@ export function ProblemSolver() {
         </div>
     );
 }
+
+const getDefaultStarterCode = (lang: Language): string => {
+    if (lang === 'python') return `class Solution:\n    def solve(self):\n        pass`;
+    if (lang === 'javascript') return `var solve = function() {\n    // Your code here\n};`;
+    return `class Solution {\npublic:\n    void solve() {\n        // Your code here\n    }\n};`;
+};
+
+const getStarterCodeForLanguage = (prob: Problem, lang: Language, mode: 'beginner' | 'optimal'): string => {
+    // 1. Check for specific mode code first
+    if (mode === 'beginner' && prob.beginnerCode) {
+        if (typeof prob.beginnerCode === 'string') return prob.beginnerCode; // Should not happen based on new type but safe check
+        if (prob.beginnerCode[lang]) return prob.beginnerCode[lang]!;
+    }
+
+    if (mode === 'optimal' && prob.codes) {
+        if (prob.codes[lang]) return prob.codes[lang]!;
+    }
+
+    // 2. Fallbacks
+    if (lang === 'python' && prob.starterCode) return prob.starterCode;
+
+    // Partial construction for JS/CPP from Codes if starterCode missing
+    if (lang === 'javascript' && prob.codes?.javascript) {
+        return `// Starter code\n${prob.codes.javascript.split('\\n').slice(0, 3).join('\\n')}\n    // Your code here\n};`;
+    }
+    if (lang === 'cpp' && prob.codes?.cpp) {
+        return `// Starter code\n${prob.codes.cpp.split('\\n').slice(0, 5).join('\\n')}\n        // Your code here\n    }\n};`;
+    }
+
+    return getDefaultStarterCode(lang);
+};

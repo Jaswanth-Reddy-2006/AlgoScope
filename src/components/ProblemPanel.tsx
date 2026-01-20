@@ -46,9 +46,45 @@ export function ProblemPanel() {
             <h3 className="text-sm font-bold uppercase tracking-tight">Real-World Application</h3>
           </div>
           <p className="text-xs text-slate-400 leading-relaxed italic">
-            "{activeProblem.realWorldApp}"
+            "{activeProblem.realWorldApp || "Used in core software engineering interviews."}"
           </p>
         </div>
+
+        {/* Algorithm Steps (New) */}
+        {activeProblem.algorithmSteps && (
+          <div className="space-y-3">
+            <div className="flex items-center gap-2 text-slate-400">
+              <span className="material-symbols-outlined text-sm">format_list_numbered</span>
+              <h4 className="text-sm font-semibold">Algorithm Steps</h4>
+            </div>
+            <div className="bg-slate-950 p-4 rounded-lg border border-slate-800 space-y-2">
+              {activeProblem.algorithmSteps.map((step, i) => (
+                <div key={i} className="flex gap-3 text-sm text-slate-300">
+                  <span className="font-mono text-indigo-500 font-bold">{i + 1}.</span>
+                  <span>{step}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Edge Cases (New) */}
+        {activeProblem.edgeCases && (
+          <div className="space-y-3">
+            <div className="flex items-center gap-2 text-slate-400">
+              <span className="material-symbols-outlined text-sm">warning</span>
+              <h4 className="text-sm font-semibold">Edge Cases</h4>
+            </div>
+            <ul className="space-y-1 bg-rose-500/5 items-start p-3 rounded-lg border border-rose-500/10">
+              {activeProblem.edgeCases.map((ec, i) => (
+                <li key={i} className="flex gap-2 text-xs text-rose-300/80">
+                  <span className="block w-1 h-1 mt-1.5 rounded-full bg-rose-500/40 shrink-0" />
+                  {ec}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         <div className="space-y-4">
           <h4 className="text-sm font-semibold text-slate-400">Examples:</h4>
