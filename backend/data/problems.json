@@ -1,0 +1,430 @@
+[
+  {
+    "id": 1,
+    "title": "Two Sum",
+    "slug": "two-sum",
+    "difficulty": "Easy",
+    "algorithmType": "two_pointer",
+    "status": "complete",
+    "tags": [
+      "Array",
+      "Hash Table"
+    ],
+    "problem_statement": "Given an array of integers `nums` and an integer `target`, return indices of the two numbers such that they add up to `target`.",
+    "constraints": [
+      "2 <= nums.length <= 10^4",
+      "-10^9 <= nums[i] <= 10^9",
+      "-10^9 <= target <= 10^9",
+      "Only one valid answer exists."
+    ],
+    "examples": [
+      {
+        "input": "nums = [2,7,11,15], target = 9",
+        "output": "[0,1]",
+        "explanation": "Because nums[0] + nums[1] == 9, we return [0, 1]."
+      }
+    ],
+    "brute_force_explanation": "Check every pair of elements to see if their sum matches the target.",
+    "optimal_explanation": "Use a hash map to store the values and their indices. For each element, check if the complement (target - value) exists in the map.",
+    "brute_force_steps": [],
+    "optimal_steps": [],
+    "complexity": {
+      "brute": "O(n²)",
+      "optimal": "O(n)",
+      "space": "O(n)"
+    },
+    "pattern_capsule": {
+      "invariant": "For any x, we need (target - x) to exist.",
+      "trigger": "Find a pair with a specific sum.",
+      "mistake": "Using nested loops (O(n²)) instead of a Hash Map (O(n))."
+    },
+    "thinking_guide": {
+      "first_principles": [
+        "Input: An array of integers `nums` and a single integer `target`.",
+        "Output: A pair of indices `[i, j]` such that `nums[i] + nums[j] == target`.",
+        "Constraints: Exactly one solution exists. Efficiently handling large arrays is key."
+      ],
+      "pattern_signals": [
+        "Keywords: 'Sum', 'Pair', 'Target'.",
+        "Structural Clue: We need to find a relationship between two numbers in a linear collection.",
+        "Why this fits: A Hash Map (Frequency Map) allow us to 'look back' at previous numbers in O(1) time."
+      ],
+      "naive_approach": [
+        "What beginners try: Nested loops (O(n^2)) checking every possible pair.",
+        "Why it works: It exhaustively searches all combinations.",
+        "Why it's inefficient: For 10^4 elements, it performs 100 million operations, which is too slow."
+      ],
+      "approach_blueprint": [
+        "1. Initialize an empty hash map to store `value -> index` mappings.",
+        "2. Iterate through the array once.",
+        "3. For each number, calculate its `complement` (target - current).",
+        "4. Check if the `complement` is already in the map.",
+        "5. If found, return the current index and the stored index.",
+        "6. If not found, store the current number and its index in the map."
+      ]
+    }
+  },
+  {
+    "id": 2,
+    "title": "Add Two Numbers",
+    "slug": "add-two-numbers",
+    "difficulty": "Medium",
+    "algorithmType": "linked_list",
+    "status": "coming_soon",
+    "tags": [
+      "Linked List",
+      "Math",
+      "Recursion"
+    ],
+    "problem_statement": "You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.",
+    "constraints": [
+      "The number of nodes in each linked list is in the range [1, 100].",
+      "0 <= Node.val <= 9",
+      "It is guaranteed that the list represents a number that does not have leading zeros."
+    ],
+    "examples": [],
+    "brute_force_explanation": "",
+    "optimal_explanation": "",
+    "brute_force_steps": [],
+    "optimal_steps": [],
+    "complexity": {
+      "brute": "O(m+n)",
+      "optimal": "O(max(m,n))",
+      "space": "O(max(m,n))"
+    }
+  },
+  {
+    "id": 3,
+    "title": "Longest Substring Without Repeating Characters",
+    "slug": "longest-substring-without-repeating-characters",
+    "difficulty": "Medium",
+    "algorithmType": "sliding_window",
+    "status": "complete",
+    "tags": [
+      "Hash Table",
+      "String",
+      "Sliding Window"
+    ],
+    "problem_statement": "Given a string `s`, find the length of the longest substring without repeating characters.",
+    "constraints": [
+      "0 <= s.length <= 5 * 10^4",
+      "s consists of English letters, digits, symbols and spaces."
+    ],
+    "examples": [
+      {
+        "input": "s = \"abcabcbb\"",
+        "output": "3",
+        "explanation": "The answer is \"abc\", with the length of 3."
+      },
+      {
+        "input": "s = \"bbbbb\"",
+        "output": "1",
+        "explanation": "The answer is \"b\", with the length of 1."
+      }
+    ],
+    "brute_force_explanation": "Check every possible substring and verify if it has repeating characters. Keep track of the maximum length found.",
+    "optimal_explanation": "Use the sliding window technique with two pointers (left and right). Expand the right pointer to include characters and shrink the left pointer when a duplicate is found.",
+    "brute_force_steps": [],
+    "optimal_steps": [],
+    "complexity": {
+      "brute": "O(n²)",
+      "optimal": "O(n)",
+      "space": "O(min(m, n))"
+    },
+    "pattern_capsule": {
+      "invariant": "A substring is valid only if all characters are unique.",
+      "trigger": "Longest/Shortest substring with condition.",
+      "mistake": "Resetting the left pointer completely instead of sliding it."
+    },
+    "thinking_guide": {
+      "first_principles": [
+        "Input: A single string `s` containing characters, digits, and symbols.",
+        "Output: The length of the longest substring with all unique characters.",
+        "Constraints: String length can be up to 5 * 10^4, requiring linear time complexity."
+      ],
+      "pattern_signals": [
+        "Keywords: 'Longest Substring', 'Unique Characters'.",
+        "Structural Clue: We need to analyze a continuous segment (window) of a string.",
+        "Why this fits: Sliding Window allows us to maintain a valid range and adjust its bounds dynamically."
+      ],
+      "naive_approach": [
+        "What beginners try: Generating all possible substrings (O(n^3)) and checking each for uniqueness.",
+        "Why it works: It checks every possibility.",
+        "Why it's inefficient: Most work is redundant. If 'abc' is unique, checking 'a', 'ab', and 'bc' individually is wasteful."
+      ],
+      "approach_blueprint": [
+        "1. Use two pointers, `left` and `right`, set to the start of the string.",
+        "2. Use a Set to track characters currently within the window.",
+        "3. Move the `right` pointer to expand the window and add characters to the Set.",
+        "4. If a duplicate character is encountered, move the `left` pointer until the duplicate is removed.",
+        "5. At each step, update the maximum length (`right - left + 1`).",
+        "6. Return the maximum length found."
+      ]
+    }
+  },
+  {
+    "id": 4,
+    "title": "Median of Two Sorted Arrays",
+    "slug": "median-of-two-sorted-arrays",
+    "difficulty": "Hard",
+    "algorithmType": "two_pointer",
+    "status": "complete",
+    "tags": [
+      "Array",
+      "Binary Search",
+      "Divide and Conquer"
+    ],
+    "problem_statement": "Given two sorted arrays `nums1` and `nums2` of size `m` and `n` respectively, return the median of the two sorted arrays. The overall run time complexity should be `O(log (m+n))`.",
+    "constraints": [
+      "nums1.length == m",
+      "nums2.length == n",
+      "0 <= m, n <= 1000",
+      "1 <= m + n <= 2000",
+      "-10^6 <= nums1[i], nums2[i] <= 10^6"
+    ],
+    "examples": [
+      {
+        "input": "nums1 = [1,3], nums2 = [2]",
+        "output": "2.00000",
+        "explanation": "merged array = [1,2,3] and median is 2."
+      }
+    ],
+    "brute_force_explanation": "Merge the two sorted arrays into one large sorted array and Find the middle element.",
+    "optimal_explanation": "Use binary search to find the correct partition point between the two arrays such that all elements on the left are smaller than all elements on the right.",
+    "brute_force_steps": [
+      {
+        "id": 1,
+        "description": "Initialize pointers for both arrays.",
+        "state": {
+          "p1": 0,
+          "p2": 0,
+          "merged": []
+        }
+      },
+      {
+        "id": 2,
+        "description": "Compare elements and add smaller to merged.",
+        "state": {
+          "p1": 1,
+          "p2": 0,
+          "merged": [
+            1
+          ]
+        }
+      }
+    ],
+    "optimal_steps": [
+      {
+        "id": 1,
+        "description": "Check which array is smaller.",
+        "state": {
+          "low": 0,
+          "high": 2,
+          "partitionX": 0
+        }
+      }
+    ],
+    "complexity": {
+      "brute": "O(m+n)",
+      "optimal": "O(log(min(m,n)))",
+      "space": "O(1)"
+    },
+    "pattern_capsule": {
+      "invariant": "The median divides the total set into two equal halves.",
+      "trigger": "Two sorted arrays + O(log(m+n)) constraint.",
+      "mistake": "Merging arrays (O(m+n)) instead of binary search partitioning."
+    },
+    "thinking_guide": {
+      "first_principles": [
+        "Input: Two separate sorted lists. We need the middle value if they were one.",
+        "Output: The median (average of two middle elements if even total length).",
+        "Constraints: Logarithmic time (O(log(m+n))) forces us to use Binary Search, not merging."
+      ],
+      "pattern_signals": [
+        "Keywords: 'Sorted', 'Logarithm', 'Median'.",
+        "Structural Clue: We have two sorted sequences and need to find a 'cut' point.",
+        "Why this fits: Partitioning logic allows us to find the median without actually merging the arrays."
+      ],
+      "naive_approach": [
+        "What beginners try: Merging both arrays (O(n+m)) using Two Pointers.",
+        "Why it works: It creates the full sorted sequence.",
+        "Why it's inefficient: It processes every element, failing the O(log(m+n)) constraint."
+      ],
+      "approach_blueprint": [
+        "1. Ensure nums1 is the smaller array to minimize the search space.",
+        "2. Binary search for a partition point in nums1.",
+        "3. Calculate the corresponding partition point in nums2.",
+        "4. Verify if the partition is valid (left elements <= right elements).",
+        "5. If left element in X > right element in Y, move search left. Otherwise, move right.",
+        "6. Calculate median based on max-lefts and min-rights."
+      ]
+    }
+  },
+  {
+    "id": 5,
+    "title": "Longest Palindromic Substring",
+    "slug": "longest-palindromic-substring",
+    "difficulty": "Medium",
+    "algorithmType": "two_pointer",
+    "status": "coming_soon",
+    "tags": [
+      "String",
+      "Dynamic Programming"
+    ],
+    "problem_statement": "Given a string s, return the longest palindromic substring in s.",
+    "constraints": [
+      "1 <= s.length <= 1000",
+      "s consists of only digits and English letters."
+    ],
+    "examples": [],
+    "brute_force_explanation": "",
+    "optimal_explanation": "",
+    "brute_force_steps": [],
+    "optimal_steps": [],
+    "code_solutions": {
+      "cpp": "",
+      "python": ""
+    },
+    "time_complexity": "O(n^2)",
+    "space_complexity": "O(1)"
+  },
+  {
+    "id": 6,
+    "title": "Zigzag Conversion",
+    "slug": "zigzag-conversion",
+    "difficulty": "Medium",
+    "algorithmType": "two_pointer",
+    "status": "coming_soon",
+    "tags": [
+      "String"
+    ],
+    "problem_statement": "The string \"PAYPALISHIRING\" is written in a zigzag pattern on a given number of rows like this: (you may want to display this pattern in a fixed font for better legibility)",
+    "constraints": [
+      "1 <= s.length <= 1000",
+      "s consists of English letters (lower-case and upper-case), ',' and '.'.",
+      "1 <= numRows <= 1000"
+    ],
+    "examples": [],
+    "brute_force_explanation": "",
+    "optimal_explanation": "",
+    "brute_force_steps": [],
+    "optimal_steps": [],
+    "code_solutions": {
+      "cpp": "",
+      "python": ""
+    },
+    "time_complexity": "O(n)",
+    "space_complexity": "O(n)"
+  },
+  {
+    "id": 7,
+    "title": "Reverse Integer",
+    "slug": "reverse-integer",
+    "difficulty": "Easy",
+    "algorithmType": "two_pointer",
+    "status": "coming_soon",
+    "tags": [
+      "Math"
+    ],
+    "problem_statement": "Given a signed 32-bit integer x, return x with its digits reversed. If reversing x causes the value to go outside the signed 32-bit integer range [-2^31, 2^31 - 1], then return 0.",
+    "constraints": [
+      "-2^31 <= x <= 2^31 - 1"
+    ],
+    "examples": [],
+    "brute_force_explanation": "",
+    "optimal_explanation": "",
+    "brute_force_steps": [],
+    "optimal_steps": [],
+    "code_solutions": {
+      "cpp": "",
+      "python": ""
+    },
+    "time_complexity": "O(log(x))",
+    "space_complexity": "O(1)"
+  },
+  {
+    "id": 8,
+    "title": "String to Integer (atoi)",
+    "slug": "string-to-integer-atoi",
+    "difficulty": "Medium",
+    "algorithmType": "two_pointer",
+    "status": "coming_soon",
+    "tags": [
+      "String"
+    ],
+    "problem_statement": "Implement the myAtoi(string s) function, which converts a string to a 32-bit signed integer.",
+    "constraints": [
+      "0 <= s.length <= 200",
+      "s consists of English letters (lower-case and upper-case), digits (0-9), ' ', '+', '-', and '.'."
+    ],
+    "examples": [],
+    "brute_force_explanation": "",
+    "optimal_explanation": "",
+    "brute_force_steps": [],
+    "optimal_steps": [],
+    "code_solutions": {
+      "cpp": "",
+      "python": ""
+    },
+    "time_complexity": "O(n)",
+    "space_complexity": "O(1)"
+  },
+  {
+    "id": 9,
+    "title": "Palindrome Number",
+    "slug": "palindrome-number",
+    "difficulty": "Easy",
+    "algorithmType": "two_pointer",
+    "status": "coming_soon",
+    "tags": [
+      "Math"
+    ],
+    "problem_statement": "Given an integer x, return true if x is a palindrome, and false otherwise.",
+    "constraints": [
+      "-2^31 <= x <= 2^31 - 1"
+    ],
+    "examples": [],
+    "brute_force_explanation": "",
+    "optimal_explanation": "",
+    "brute_force_steps": [],
+    "optimal_steps": [],
+    "code_solutions": {
+      "cpp": "",
+      "python": ""
+    },
+    "time_complexity": "O(log(x))",
+    "space_complexity": "O(1)"
+  },
+  {
+    "id": 10,
+    "title": "Regular Expression Matching",
+    "slug": "regular-expression-matching",
+    "difficulty": "Hard",
+    "algorithmType": "two_pointer",
+    "status": "coming_soon",
+    "tags": [
+      "String",
+      "Dynamic Programming",
+      "Recursion"
+    ],
+    "problem_statement": "Given an input string s and a pattern p, implement regular expression matching with support for '.' and '*' where '.' Matches any single character and '*' Matches zero or more of the preceding element.",
+    "constraints": [
+      "1 <= s.length <= 20",
+      "1 <= p.length <= 20",
+      "s consists of only lowercase English letters.",
+      "p consists of only lowercase English letters, '.', and '*'.",
+      "It is guaranteed for each appearance of the character '*', there will be a previous valid character to match."
+    ],
+    "examples": [],
+    "brute_force_explanation": "",
+    "optimal_explanation": "",
+    "brute_force_steps": [],
+    "optimal_steps": [],
+    "code_solutions": {
+      "cpp": "",
+      "python": ""
+    },
+    "time_complexity": "O((m+n) * 2^(m+n))",
+    "space_complexity": "O(m+n)"
+  }
+]

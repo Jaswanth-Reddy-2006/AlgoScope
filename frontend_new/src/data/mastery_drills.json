@@ -1,0 +1,152 @@
+{
+    "two_pointer": [
+        {
+            "id": "tp_1",
+            "type": "signal_recognition",
+            "scenario": "You need to find two numbers in a sorted array that add up to a specific target.",
+            "question": "Which pattern is most suitable for this scenario?",
+            "options": [
+                "Sliding Window",
+                "Two Pointers",
+                "Hash Map",
+                "Depth First Search"
+            ],
+            "correctAnswer": "Two Pointers",
+            "explanation": "Since the array is sorted, using two pointers moving from the ends inward allows you to find the pair in O(n) time."
+        },
+        {
+            "id": "tp_2",
+            "type": "invariant_identification",
+            "scenario": "Container With Most Water: maximizing area between lines.",
+            "question": "What is the core invariant when moving the pointers?",
+            "options": [
+                "Always move the pointer with the larger height.",
+                "Always move the pointer with the smaller height.",
+                "Move both pointers at simultaneously.",
+                "Move the left pointer only."
+            ],
+            "correctAnswer": "Always move the pointer with the smaller height.",
+            "explanation": "To potentially find a larger area, you must overcome the limitation of the shorter line. Moving the taller line can only decrease the width without increasing height."
+        },
+        {
+            "id": "tp_3",
+            "type": "mistake_detection",
+            "scenario": "Checking for a palindrome string.",
+            "codeSnippet": "while (left < right) {\n  if (s[left] != s[right]) return true;\n  left++; right--;\n}",
+            "question": "What is the logical flaw in this snippet?",
+            "options": [
+                "It returns true on mismatch instead of false.",
+                "Loop condition should be left <= right.",
+                "Pointers are moving in the wrong direction.",
+                "It doesn't handle empty strings."
+            ],
+            "correctAnswer": "It returns true on mismatch instead of false.",
+            "explanation": "If characters at the pointers don't match, it's NOT a palindrome, so it should return false."
+        },
+        {
+            "id": "tp_4",
+            "type": "signal_recognition",
+            "scenario": "Reversing an array in-place.",
+            "question": "What is the primary signal for using Two Pointers here?",
+            "options": [
+                "Need to track frequency of elements.",
+                "Need to modify elements at symmetric positions.",
+                "Need to find a subarray sum.",
+                "Need to sort the array."
+            ],
+            "correctAnswer": "Need to modify elements at symmetric positions.",
+            "explanation": "Swapping elements from both ends moving inwards is the classic in-place reversal strategy."
+        },
+        {
+            "id": "tp_5",
+            "type": "mistake_detection",
+            "scenario": "Finding a pair with target sum in a sorted array.",
+            "codeSnippet": "while (left != right) { ... }",
+            "question": "Why is this loop condition potentially risky?",
+            "options": [
+                "Left might cross Right, leading to an infinite loop.",
+                "It excludes the middle element.",
+                "It is actually correct.",
+                "It crashes on empty arrays."
+            ],
+            "correctAnswer": "Left might cross Right, leading to an infinite loop.",
+            "explanation": "If the pointers step over each other (e.g., left becomes > right) without ever being equal, the loop won't terminate. Use `left < right`."
+        }
+    ],
+    "sliding_window": [
+        {
+            "id": "sw_1",
+            "type": "signal_recognition",
+            "scenario": "Finding the longest substring with at most k distinct characters.",
+            "question": "Which pattern best fits this problem?",
+            "options": [
+                "Dynamic Programming",
+                "Two Pointers (Fixed)",
+                "Sliding Window (Variable)",
+                "Greedy"
+            ],
+            "correctAnswer": "Sliding Window (Variable)",
+            "explanation": "We need to expand the window until the constraint is violated, then shrink it to restore validity."
+        },
+        {
+            "id": "sw_2",
+            "type": "invariant_identification",
+            "scenario": "Maximum Sum Subarray of Size K.",
+            "question": "What property must be maintained as the window slides?",
+            "options": [
+                "The window size must vary.",
+                "The window size must remain constant at K.",
+                "The sum must always increase.",
+                "The window must contain unique elements."
+            ],
+            "correctAnswer": "The window size must remain constant at K.",
+            "explanation": "We add the new element entering the window and remove the element leaving it to maintain the fixed size."
+        },
+        {
+            "id": "sw_3",
+            "type": "mistake_detection",
+            "scenario": "Longest Substring Without Repeating Characters.",
+            "codeSnippet": "for (int right = 0; right < n; right++) {\n  while (set.has(s[right])) {\n     set.delete(s[right]);\n     left++;\n  }\n}",
+            "question": "What is the bug in the shrink logic?",
+            "options": [
+                "It deletes the current character `s[right]` instead of `s[left]`.",
+                "The loop condition is wrong.",
+                "Set operations are O(n).",
+                "Left pointer shouldn't move."
+            ],
+            "correctAnswer": "It deletes the current character `s[right]` instead of `s[left]`.",
+            "explanation": "When shrinking, we must remove the character at the `left` pointer to resolve the conflict, not the new character at `right`."
+        }
+    ],
+    "linked_list": [
+        {
+            "id": "ll_1",
+            "type": "signal_recognition",
+            "scenario": "Detecting a cycle in a Linked List.",
+            "question": "Which technique is the standard solution?",
+            "options": [
+                "Stack Traversal",
+                "Floyd's Cycle-Finding (Tortoise & Hare)",
+                "Recursive Descent",
+                "Backtracking"
+            ],
+            "correctAnswer": "Floyd's Cycle-Finding (Tortoise & Hare)",
+            "explanation": "A slow pointer moving 1 step and a fast pointer moving 2 steps will eventually meet if a cycle exists."
+        },
+        {
+            "id": "ll_2",
+            "type": "mistake_detection",
+            "scenario": "Reversing a Linked List.",
+            "codeSnippet": "curr.next = prev;\nprev = curr;\ncurr = curr.next;",
+            "question": "What goes wrong in this sequence?",
+            "options": [
+                "Reference to the next node is lost before moving.",
+                "Prev is not initialized.",
+                "It creates a cycle.",
+                "It skips nodes."
+            ],
+            "correctAnswer": "Reference to the next node is lost before moving.",
+            "explanation": "By setting `curr.next = prev`, we lose the link to the rest of the list. We must save `next = curr.next` first."
+        }
+    ]
+}
